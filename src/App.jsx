@@ -5,6 +5,7 @@ import Hero from './components/Hero/Hero'
 import EditGallery from './components/EditGallery/EditGallery'
 import StatsBar from './components/StatsBar/StatsBar'
 import Services from './components/Services/Services'
+import Shop from './components/Shop/Shop'
 import Partners from './components/Partners/Partners'
 import Contact from './components/Contact/Contact'
 import Footer from './components/Footer/Footer'
@@ -61,6 +62,7 @@ export default function App() {
         <div className="reveal"><EditGallery /></div>
         <div className="reveal"><StatsBar /></div>
         <div className="reveal"><Services /></div>
+        <div className="reveal"><Shop /></div>
         <div className="reveal"><Partners /></div>
         <div className="reveal"><Contact /></div>
       </main>

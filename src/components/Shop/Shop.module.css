@@ -1,0 +1,263 @@
+.section {
+  padding: 100px 0;
+  background-color: var(--black);
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+
+/* Efeito de brilho de fundo na seção */
+.section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255, 45, 120, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 2;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, var(--white) 30%, var(--muted) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
+}
+
+.sub {
+  font-size: 1.1rem;
+  color: var(--muted);
+  max-width: 600px;
+  margin: 0 auto 24px auto;
+  line-height: 1.6;
+}
+
+.underline {
+  width: 80px;
+  height: 4px;
+  background: var(--pink);
+  margin: 0 auto;
+  border-radius: 2px;
+  box-shadow: 0 0 12px var(--pink);
+}
+
+/* Tabs / Filtros */
+.tabsContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.tabs {
+  display: flex;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 6px;
+  border-radius: 30px;
+  border: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+}
+
+.tabBtn {
+  padding: 8px 24px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--muted);
+  transition: all 0.3s ease;
+}
+
+.tabBtn:hover {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.activeTab {
+  color: var(--white);
+  background: var(--pink) !important;
+  box-shadow: 0 0 15px var(--pink-glow);
+}
+
+/* Grid de cards */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+/* Card base */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 45, 120, 0.05);
+}
+
+/* Temas Visuais Neon customizados por categoria */
+.themeMouse:hover {
+  border-color: rgba(0, 240, 255, 0.4);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 240, 255, 0.15);
+}
+.themeTeclado:hover {
+  border-color: rgba(168, 85, 247, 0.4);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(168, 85, 247, 0.15);
+}
+.themeAudio:hover {
+  border-color: rgba(236, 72, 153, 0.4);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(236, 72, 153, 0.15);
+}
+.themeSetup:hover {
+  border-color: rgba(251, 191, 36, 0.4);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(251, 191, 36, 0.15);
+}
+
+/* Card Header */
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.categoryBadge {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--muted);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 4px 8px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+.couponBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--pink-dim);
+  border: 1px dashed var(--pink-border);
+  color: var(--pink);
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.couponBadge:hover {
+  background: var(--pink);
+  color: var(--white);
+  border-style: solid;
+  transform: scale(1.03);
+}
+
+.couponCopied {
+  background: #10B981 !important;
+  color: var(--white) !important;
+  border-color: #10B981 !important;
+  border-style: solid !important;
+}
+
+/* Card Content */
+.cardContent {
+  flex-grow: 1;
+  margin-bottom: 24px;
+}
+
+.productName {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.productDesc {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Card Footer */
+.buyBtn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--white);
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.buyBtn:hover {
+  background: var(--white);
+  color: var(--black);
+  border-color: var(--white);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .section {
+    padding: 80px 0;
+  }
+  .title {
+    font-size: 2.3rem;
+  }
+  .tabBtn {
+    padding: 8px 16px;
+    font-size: 0.75rem;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
