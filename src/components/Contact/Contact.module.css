@@ -1,0 +1,116 @@
+.section {
+  padding: 6rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 300px;
+  background: radial-gradient(ellipse at center, var(--pink-glow) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.inner {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--pink);
+}
+
+.email {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Bebas Neue', cursive;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  line-height: 0.9;
+  color: var(--white);
+  letter-spacing: 2px;
+  transition: color 0.2s;
+  width: fit-content;
+  position: relative;
+}
+
+.email:hover {
+  color: var(--pink);
+}
+
+.glitch {
+  animation: glitch 0.4s steps(2) forwards;
+}
+
+@keyframes glitch {
+  0%   { text-shadow: none; }
+  20%  { text-shadow: 3px 0 var(--pink), -3px 0 #00ffff; }
+  40%  { text-shadow: -3px 0 var(--pink), 3px 0 #00ffff; }
+  60%  { text-shadow: 2px 0 var(--pink), -2px 0 #00ffff; }
+  80%  { text-shadow: -2px 0 var(--pink), 2px 0 #00ffff; }
+  100% { text-shadow: none; }
+}
+
+.sub {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+.links {
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  transition: color 0.2s;
+}
+
+.link:hover {
+  color: var(--pink);
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.link:hover .arrow {
+  transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 4rem 1.25rem;
+  }
+
+  .links {
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+}
