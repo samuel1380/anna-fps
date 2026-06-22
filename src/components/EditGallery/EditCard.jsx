@@ -21,6 +21,8 @@ export default function EditCard({ edit }) {
           src={edit.thumbnail}
           alt={edit.title}
           className={styles.img}
+          loading="lazy"
+          decoding="async"
           onError={e => {
             e.target.style.display = 'none'
             e.target.parentElement.classList.add(styles.noImage)

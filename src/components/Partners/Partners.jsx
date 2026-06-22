@@ -3,10 +3,7 @@ import { partners } from '../../data/partners'
 import styles from './Partners.module.css'
 
 export default function Partners() {
-  // Duplicate the list of partners to create a seamless infinite loop
   const list = [...partners, ...partners]
-
-  // Rastreia logos que falharam no carregamento (ex: 404) para usar a letra inicial de fallback
   const [failedLogos, setFailedLogos] = useState({})
 
   const handleImageError = (partnerId, index) => {
@@ -44,6 +41,8 @@ export default function Partners() {
                         src={p.logo}
                         alt={p.name}
                         className={styles.logoImg}
+                        loading="lazy"
+                        decoding="async"
                         onError={() => handleImageError(p.id, i)}
                       />
                     </div>

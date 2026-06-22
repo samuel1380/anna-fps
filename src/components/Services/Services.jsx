@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { socials } from '../../data/socials'
 import styles from './Services.module.css'
+import { IconChat } from '../Icons'
 
 const services = [
   {
@@ -35,37 +36,41 @@ export default function Services() {
       <div className={styles.inner}>
         <h2 className={styles.title}>SERVIÇOS</h2>
         <div className={styles.list}>
-          {services.map((s, i) => (
-            <div
-              key={i}
-              className={`${styles.row} ${openIdx === i ? styles.open : ''}`}
-              onClick={() => toggle(i)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={e => e.key === 'Enter' && toggle(i)}
-              id={`service-${s.num}`}
-            >
-              <div className={styles.rowTop}>
-                <span className={styles.num}>{s.num}</span>
-                <div className={styles.divLine} />
-                <span className={styles.name}>{s.name}</span>
-                <span className={styles.arrow}>
-                  {openIdx === i ? '−' : '+'}
-                </span>
+          {services.map((s, i) => {
+            const isOpen = openIdx === i
+            return (
+              <div
+                key={i}
+                className={`${styles.row} ${isOpen ? styles.open : ''}`}
+                onClick={() => toggle(i)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={e => e.key === 'Enter' && toggle(i)}
+                aria-expanded={isOpen}
+                id={`service-${s.num}`}
+              >
+                <div className={styles.rowTop}>
+                  <span className={styles.num}>{s.num}</span>
+                  <div className={styles.divLine} />
+                  <span className={styles.name}>{s.name}</span>
+                  <span className={styles.arrow} aria-hidden="true">
+                    {isOpen ? '−' : '+'}
+                  </span>
+                </div>
+                <div className={styles.body}>
+                  <p className={styles.desc}>{s.desc}</p>
+                  <a
+                    href={`mailto:${socials.email}`}
+                    className={styles.bodyBtn}
+                    onClick={e => e.stopPropagation()}
+                    id={`service-cta-${s.num}`}
+                  >
+                    SOLICITAR →
+                  </a>
+                </div>
               </div>
-              <div className={styles.body}>
-                <p className={styles.desc}>{s.desc}</p>
-                <a
-                  href={`mailto:${socials.email}`}
-                  className={styles.bodyBtn}
-                  onClick={e => e.stopPropagation()}
-                  id={`service-cta-${s.num}`}
-                >
-                  SOLICITAR →
-                </a>
-              </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>

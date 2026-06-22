@@ -32,11 +32,6 @@
   animation: spin 6s linear infinite;
 }
 
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
 .copy {
   font-family: 'Space Mono', monospace;
   font-size: 0.62rem;

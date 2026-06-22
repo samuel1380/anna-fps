@@ -33,8 +33,20 @@ body {
   font-family: 'Outfit', sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
-  cursor: none;
   overflow-x: hidden;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body, html, a, button, [role="button"] {
+    cursor: none !important;
+  }
+}
+
+button {
+  border: none;
+  outline: none;
+  background: none;
+  font-family: inherit;
 }
 
 body::before {
@@ -126,7 +138,26 @@ section {
   .custom-cursor {
     display: none !important;
   }
-  body, html, a, button, [role="button"] {
+  *, *::before, *::after {
     cursor: auto !important;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 4px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }

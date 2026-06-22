@@ -22,7 +22,6 @@ export default function EditGallery() {
         <button
           className={styles.viewAllBtn}
           id="gallery-ver-todas"
-          onClick={() => alert('Em breve! Todas as edições estarão disponíveis aqui.')}
         >
           VER TODAS AS EDIÇÕES ⊞
         </button>

@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { shopProducts } from '../../data/shop'
 import styles from './Shop.module.css'
+import { IconExternalLink, IconCopy, IconCheck, IconTag } from '../Icons'
 
 const categories = [
   { id: 'all', label: 'TODOS' },
@@ -10,52 +11,37 @@ const categories = [
   { id: 'setup', label: 'SETUP' }
 ]
 
-// Ícones SVG para os botões e categorias
-const IconExternalLink = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-    <polyline points="15 3 21 3 21 9" />
-    <line x1="10" y1="14" x2="21" y2="3" />
-  </svg>
-)
-
-const IconCopy = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-  </svg>
-)
-
-const IconCheck = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="20 6 9 17 4 12" />
-  </svg>
-)
-
-const IconTag = () => (
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
-    <line x1="7" y1="7" x2="7.01" y2="7" />
-  </svg>
-)
-
 export default function Shop() {
   const [activeTab, setActiveTab] = useState('all')
   const [copiedId, setCopiedId] = useState(null)
 
-  const handleCopy = (coupon, id) => {
-    navigator.clipboard.writeText(coupon)
-    setCopiedId(id)
-    setTimeout(() => {
-      setCopiedId(null)
-    }, 2000)
-  }
+  const handleCopy = useCallback((coupon, id) => {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(coupon).then(() => {
+        setCopiedId(id)
+        setTimeout(() => setCopiedId(null), 2000)
+      }).catch(() => {
+        setCopiedId(id)
+        setTimeout(() => setCopiedId(null), 2000)
+      })
+    } else {
+      const ta = document.createElement('textarea')
+      ta.value = coupon
+      ta.style.position = 'fixed'
+      ta.style.opacity = '0'
+      document.body.appendChild(ta)
+      ta.select()
+      document.execCommand('copy')
+      document.body.removeChild(ta)
+      setCopiedId(id)
+      setTimeout(() => setCopiedId(null), 2000)
+    }
+  }, [])
 
-  const filteredProducts = shopProducts.filter(p => 
+  const filteredProducts = shopProducts.filter(p =>
     activeTab === 'all' ? true : p.category === activeTab
   )
 
-  // Mapeamento de cor / gradiente por categoria para dar um look super customizado e vivo!
   const getCategoryTheme = (category) => {
     switch (category) {
       case 'mouse':
@@ -82,14 +68,15 @@ export default function Shop() {
           <div className={styles.underline} />
         </div>
 
-        {/* Categorias Tabs */}
-        <div className={styles.tabsContainer}>
+        <div className={styles.tabsContainer} role="tablist" aria-label="Categorias da loja">
           <div className={styles.tabs}>
             {categories.map(cat => (
               <button
                 key={cat.id}
                 className={`${styles.tabBtn} ${activeTab === cat.id ? styles.activeTab : ''}`}
                 onClick={() => setActiveTab(cat.id)}
+                role="tab"
+                aria-selected={activeTab === cat.id}
                 id={`shop-tab-${cat.id}`}
               >
                 {cat.label}
@@ -98,7 +85,6 @@ export default function Shop() {
           </div>
         </div>
 
-        {/* Grid de Produtos */}
         <div className={styles.grid}>
           {filteredProducts.map(p => {
             const isCopied = copiedId === p.id
@@ -115,18 +101,17 @@ export default function Shop() {
                     {p.category.toUpperCase()}
                   </span>
                   {p.coupon && (
-                    <div
+                    <button
                       className={`${styles.couponBadge} ${isCopied ? styles.couponCopied : ''}`}
                       onClick={() => handleCopy(p.coupon, p.id)}
-                      title="Clique para copiar o cupom"
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={e => e.key === 'Enter' && handleCopy(p.coupon, p.id)}
+                      type="button"
+                      aria-label={`Copiar cupom ${p.coupon}`}
+                      id={`shop-coupon-${p.id}`}
                     >
-                      <IconTag />
+                      <IconTag className={styles.iconTag} />
                       <span>{isCopied ? 'COPIADO!' : p.coupon}</span>
-                      {isCopied ? <IconCheck /> : <IconCopy />}
-                    </div>
+                      {isCopied ? <IconCheck className={styles.iconCheck} /> : <IconCopy className={styles.iconCopy} />}
+                    </button>
                   )}
                 </div>
 

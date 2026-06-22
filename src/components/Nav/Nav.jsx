@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { socials } from '../../data/socials'
 import styles from './Nav.module.css'
+import { IconCart } from '../Icons'
 
 const links = [
   { label: 'INÍCIO',     href: '#inicio' },
@@ -11,20 +12,22 @@ const links = [
   { label: 'CONTATO',    href: '#contato' },
 ]
 
-const IconCart = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-  </svg>
-)
-
 export default function Nav() {
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('#inicio')
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
+    let ticking = false
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 20)
+          ticking = false
+        })
+        ticking = true
+      }
+    }
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -33,6 +36,16 @@ export default function Nav() {
     if (open) document.body.style.overflow = 'hidden'
     else document.body.style.overflow = ''
     return () => { document.body.style.overflow = '' }
+  }, [open])
+
+  useEffect(() => {
+    if (!open) return
+
+    const onKey = (e) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
   }, [open])
 
   const whatsappLink = `https://wa.me/55${socials.whatsapp}?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20quero%20comprar%20uma%20edit.`
@@ -99,8 +112,7 @@ export default function Nav() {
             href={whatsappLink}
             target="_blank"
             rel="noopener noreferrer"
-            className={styles.cta}
-            style={{ marginTop: '1rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
+            className={styles.drawerCta}
           >
             COMPRAR EDIT
             <IconCart />

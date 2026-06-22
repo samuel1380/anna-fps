@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { socials } from '../../data/socials'
 import styles from './Contact.module.css'
+import { IconChat } from '../Icons'
 
 export default function Contact() {
   const emailRef = useRef(null)
@@ -28,16 +29,18 @@ export default function Contact() {
         <p className={styles.sub}>Para parcerias, edições e oportunidades</p>
 
         <div className={styles.links}>
-          <a
-            href={socials.discord}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.link}
-            id="contact-discord"
-          >
-            <span className={styles.arrow}>→</span>
-            Discord — Comprar Edit
-          </a>
+          {socials.discord && (
+            <a
+              href={socials.discord}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.link}
+              id="contact-discord"
+            >
+              <span className={styles.arrow}>→</span>
+              Discord — Comprar Edit
+            </a>
+          )}
           <a
             href={socials.instagram}
             target="_blank"
